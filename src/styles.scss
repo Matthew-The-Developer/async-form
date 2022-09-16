@@ -37,3 +37,7 @@ $async-form-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@import 'button.scss';
+@import 'form.scss';
+@import 'variables.scss';

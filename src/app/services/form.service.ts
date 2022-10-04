@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import { catchError, delay, map, Observable, of, throwError } from 'rxjs';
 import { AnimalOption } from '../models/animal.model';
 import { FavoriteFoodOption } from '../models/favorite-food.model';
+import { SpacecraftOption } from '../models/spacecraft.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +22,24 @@ export class FormService {
     ]);
   }
 
-  getAnimalOptions(): Observable<AnimalOption[]> {
-    return this.http.get<AnimalOption[]>('http://zoo-animal-api.herokuapp.com/animals/rand/10').pipe(
+  getAnimalOptions(url: string): Observable<AnimalOption[]> {
+    return this.http.get<AnimalOption[]>(url).pipe(
+      delay(3000),
       catchError(error => {
         console.log(error);
         return throwError(() => new Error(error));
       })
+    );
+  }
+
+  getSpacecraftOptions(url: string): Observable<SpacecraftOption[]> {
+    return this.http.get<SpacecraftOption[]>(url).pipe(
+      delay(5000),
+      catchError(error => {
+        console.log(error);
+        return throwError(() => new Error(error))
+      }),
+      map((result: any) => result.spacecrafts)
     );
   }
 }

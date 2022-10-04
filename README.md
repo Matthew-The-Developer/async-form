@@ -22,7 +22,7 @@ Run `ng build --base-href "https://Matthew-The-Developer.github.io/async-form/"`
 
 ## Deploy
 
-Run `npx angular-cli-ghpages --dir=dist/nested-forms` to deploy the current build of the project to [GitHub Pages](https://matthew-the-developer.github.io/nested-forms/).
+Run `npx angular-cli-ghpages --dir=dist/async-form` to deploy the current build of the project to [GitHub Pages](https://matthew-the-developer.github.io/nested-forms/).
 
 ## Running unit tests
 

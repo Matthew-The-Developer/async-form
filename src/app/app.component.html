@@ -1,59 +1,95 @@
-<mat-card>
-  <mat-toolbar color="primary">
-    <span class="mat-h3">Async Form</span>
+<mat-toolbar>
+  <span>Async Form</span>
 
-    <span spacer></span>
+  <span spacer></span>
 
-    <button mat-button>
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-toolbar>
+  <mat-button-toggle-group [(ngModel)]="animalURL" class="mat-body">
+    <mat-button-toggle value="https://zoo-animal-api.herokuapp.com/animals/rand/10">Animal Success</mat-button-toggle>
+    <mat-button-toggle value="https://zoo-animal-api.herokuapp.com/sdfsdfs/rand/10">Animal Failure</mat-button-toggle>
+  </mat-button-toggle-group>
 
-  <mat-card-content>
-    <form [formGroup]="group">
-      <table cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field compact>
-              <mat-label>First name</mat-label>
-              <input formControlName="firstName" matInput>
-              <mat-error matErrorMessaging></mat-error>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field compact>
-              <mat-label>Last Name</mat-label>
-              <input formControlName="lastName" matInput>
-              <mat-error matErrorMessaging></mat-error>
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
+  <mat-button-toggle-group [(ngModel)]="spacecraftURL" class="mat-body">
+    <mat-button-toggle value="https://isro.vercel.app/api/spacecrafts">Spacecraft Success</mat-button-toggle>
+    <mat-button-toggle value="https://isro.vercel.app/api/sdfsdfsdf">Spacecraft Failure</mat-button-toggle>
+  </mat-button-toggle-group>
 
-      <mat-form-field compact>
-        <mat-label>Email</mat-label>
-        <input formControlName="email" matInput>
-        <mat-error matErrorMessaging></mat-error>
-      </mat-form-field>
+  <button (click)="reset()" mat-flat-button color="primary">Reset Form</button>
+</mat-toolbar>
 
-      <mat-form-field compact>
-        <mat-spinner *ngIf="!(animalOptions$ | async)" diameter="14" matPrefix></mat-spinner>
-        <mat-label>Favorite Animal</mat-label>
-        <mat-select formControlName="favoriteAnimal">
-          <mat-option *ngFor="let animal of animalOptions$ | async" [value]="animal.name">
-            {{ animal.name }} - {{ animal.animal_type }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </form>
-  </mat-card-content>
-
-  <mat-card-actions align="end">
-    <button mat-button>Cancel</button>
-    <button [disabled]="!isReady" mat-flat-button color="primary">
-      <mat-spinner *ngIf="!isReady; else loaded" diameter="20"></mat-spinner>
-      <ng-template #loaded>Save</ng-template>
-    </button>
-  </mat-card-actions>
-</mat-card>
-
+<div class="container">
+  <mat-card>
+    <mat-toolbar color="primary">
+      <span class="mat-h3">Async Form</span>
+  
+      <span spacer></span>
+  
+      <button mat-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+  
+    <mat-card-content>
+      <form [formGroup]="group">
+        <table cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field compact>
+                <mat-label>First name</mat-label>
+                <input formControlName="firstName" matInput>
+                <mat-error matErrorMessaging></mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field compact>
+                <mat-label>Last Name</mat-label>
+                <input formControlName="lastName" matInput>
+                <mat-error matErrorMessaging></mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+  
+        <mat-form-field compact>
+          <mat-label>Email</mat-label>
+          <input formControlName="email" matInput>
+          <mat-error matErrorMessaging></mat-error>
+        </mat-form-field>
+  
+        <mat-form-field compact>
+          <mat-spinner *ngIf="animalLoading" diameter="14" matPrefix></mat-spinner>
+          <mat-label>Favorite Animal</mat-label>
+          <mat-select formControlName="favoriteAnimal">
+            <mat-option *ngFor="let animal of animalOptions$ | async" [value]="animal.name">
+              {{ animal.name }} - {{ animal.animal_type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field compact>
+          <mat-spinner *ngIf="spacecraftLoading" diameter="14" matPrefix></mat-spinner>
+          <mat-label>Favorite Spacecraft</mat-label>
+          <mat-select formControlName="favoriteSpacescraft">
+            <mat-option *ngFor="let spacecraft of spacecraftOptions$ | async" [value]="spacecraft.name">
+              {{ spacecraft.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+  
+    <mat-card-actions>
+      <ng-container *ngIf="error">
+        <mat-error>Unable to load form fields</mat-error>
+        <button (click)="getFieldsAsync()" mat-button color="warn">Retry</button>
+      </ng-container>
+  
+      <span spacer></span>
+  
+      <button mat-button>Cancel</button>
+      <button [disabled]="loading || error" mat-flat-button color="primary">
+        <mat-spinner *ngIf="loading; else loaded" diameter="20"></mat-spinner>
+        <ng-template #loaded>Save</ng-template>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

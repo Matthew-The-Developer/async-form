@@ -1,5 +1,11 @@
-:host {
-  height: 100%;
+mat-toolbar {
+  mat-button-toggle-group {
+    margin-right: 1rem;
+  }
+}
+
+.container {
+  height: calc(100vh - 64px);
 
   display: flex;
   align-items: center;
@@ -34,8 +40,13 @@
     }
 
     mat-card-actions {
+      display: flex;
       padding: 0 1.25rem 1.25rem;
       
+      mat-error {
+        margin: auto 0;
+      }
+
       button {
         mat-spinner {
           margin: auto;
